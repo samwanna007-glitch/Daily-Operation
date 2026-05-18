@@ -19,12 +19,10 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Setup Firebase credentials
-        if: ${{ secrets.FIREBASE_SERVICE_ACCOUNT != '' }}
         run: |
           echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" | base64 --decode > serviceAccountKey.json
 
       - name: Run YouTube tracker
-        if: ${{ secrets.FIREBASE_SERVICE_ACCOUNT != '' }}
         run: python main.py
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
