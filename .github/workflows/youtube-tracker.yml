@@ -20,7 +20,6 @@ jobs:
 
       - name: Run YouTube tracker
         # This ensures the script only runs if the Firebase key actually exists
-        if: secrets.FIREBASE_SERVICE_ACCOUNT != ''
         run: python main.py
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
