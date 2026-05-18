@@ -18,15 +18,13 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # 1. This safely recreates your Firebase JSON file from your Base64 secret
       - name: Setup Firebase credentials
-        if: secrets.FIREBASE_CREDENTIALS_PATH != ''
+        if: ${{ secrets.FIREBASE_SERVICE_ACCOUNT != '' }}
         run: |
-          echo "${{ secrets.FIREBASE_CREDENTIALS_PATH }}" | base64 --decode > serviceAccountKey.json
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" | base64 --decode > serviceAccountKey.json
 
-      # 2. This only runs the script if the Firebase credentials exist
       - name: Run YouTube tracker
-        if: secrets.FIREBASE_CREDENTIALS_PATH != ''
+        if: ${{ secrets.FIREBASE_SERVICE_ACCOUNT != '' }}
         run: python main.py
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
