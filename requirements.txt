@@ -1,0 +1,6 @@
+google-api-python-client>=2.0.0
+python-dotenv>=1.0.0
+requests>=2.28.0
+gnews>=0.4.3
+google-cloud-firestore>=2.0.0
+firebase-admin>=6.0.0
