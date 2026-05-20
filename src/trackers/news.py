@@ -19,7 +19,7 @@ class NewsTracker(BaseTracker):
     def fetch_items(self):
         """Fetch news articles from configured topics."""
         return fetch_latest_news()
-
+    
     def get_category(self, item):
         """Return 'news' for all articles."""
         return "news"
@@ -49,12 +49,13 @@ class NewsTracker(BaseTracker):
                     description=item.get("description", ""),
                     url=item.get("url", ""),
                     category=category,
-                    channel=item.get("channel", ""),
+                    channel=item.get("source", ""),
                     published_at=item.get("published_at", ""),
                     video_id=item.get("article_id"),
                     image=item.get("image", ""),
-                    channel_url=item.get("channel_url", ""),
+                    channel_url=item.get("source_url", ""),
                     is_news_db=True
+
                 )
                 if result:
                     added_items.append(item)
@@ -65,16 +66,15 @@ class NewsTracker(BaseTracker):
                                 "title": item.get("title", ""),
                                 "description": item.get("description", ""),
                                 "url": item.get("url", ""),
-                                "category": category,
-                                "channel": item.get("channel", ""),
                                 "published_at": item.get("published_at", ""),
+                                "source": item.get("source", ""),
                                 "article_id": item.get("article_id"),
                                 "read": False,
                             }
                             if item.get("image"):
                                 fb_data["image"] = item.get("image")
-                            if item.get("channel_url"):
-                                fb_data["channel_url"] = item.get("channel_url")
+                            if item.get("source_url"):
+                                fb_data["source_url"] = item.get("source_url")
                             firebase.add_entry("news_articles", fb_data, item.get("article_id"))
                         except FileNotFoundError as e:
                             print(f"Firebase skipped: {e}")

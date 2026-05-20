@@ -53,8 +53,8 @@ def fetch_latest_news(topics=None, keywords=None):
                         "url": article.get("url", ""),
                         "image": article.get("image", ""),
                         "published_at": article.get("publishedAt", ""),
-                        "channel": article.get("source", {}).get("name", "Unknown"),
-                        "channel_url": article.get("source", {}).get("url", ""),
+                        "source": article.get("source", {}).get("name", "Unknown"),
+                        "source_url": article.get("source", {}).get("url", ""),
                         "article_id": article.get("url", "").split("/")[-1][:30]
                     }
                     all_articles.append(article_data)
@@ -83,8 +83,8 @@ def fetch_latest_news(topics=None, keywords=None):
                             "url": article.get("url", ""),
                             "image": article.get("image", ""),
                             "published_at": article.get("publishedAt", ""),
-                            "channel": article.get("source", {}).get("name", "Unknown"),
-                            "channel_url": article.get("source", {}).get("url", ""),
+                            "source": article.get("source", {}).get("name", "Unknown"),
+                            "source_url": article.get("source", {}).get("url", ""),
                             "article_id": article.get("url", "").split("/")[-1][:30]
                         }
                         all_articles.append(article_data)

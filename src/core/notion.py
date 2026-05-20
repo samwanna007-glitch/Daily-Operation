@@ -73,6 +73,8 @@ def add_entry(database_id, title, description, url, category, channel, published
         }
         if channel_url:
             properties["Source_URL"] = {"rich_text": [{"text": {"content": channel_url}}]}
+        if image:
+            properties["Image_URL"] = {"url": image}
     else:
         # YouTube database schema
         properties = {

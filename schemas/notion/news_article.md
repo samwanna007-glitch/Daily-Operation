@@ -11,7 +11,8 @@ Based on `article_data` structure from `src/clients/news.py`:
 | Publish_At    | Date      | Yes      | Article publish date         |
 | Article_Id    | Text      | Yes      | Article ID for deduplication |
 | Source_URL    | Text      | No       | Source website URL           |
+| Image         | URL       | No       | Article image URL            |
 
 Note: Each database has its own ID property (Video_id for YouTube, Article_Id for News).
 
-Optional properties (Source_URL) are only added when available.
+Optional properties (Source_URL, Image) are only added when available.

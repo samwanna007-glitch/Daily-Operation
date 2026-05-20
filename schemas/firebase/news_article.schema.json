@@ -18,11 +18,6 @@
       "format": "uri",
       "description": "Article URL"
     },
-    "category": {
-      "type": "string",
-      "enum": ["news"],
-      "description": "Article category"
-    },
     "channel": {
       "type": "string",
       "description": "News source name"
