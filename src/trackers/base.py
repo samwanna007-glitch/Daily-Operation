@@ -15,6 +15,6 @@ class BaseTracker(ABC):
         pass
 
     @abstractmethod
-    def get_category(self, item):
-        """Get the category for an item."""
+    def fetch_items(self):
+        """Fetch items from the source. Returns list of item dicts."""
         pass

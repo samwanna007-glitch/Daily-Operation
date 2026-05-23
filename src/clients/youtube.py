@@ -60,7 +60,7 @@ def fetch_all_today_uploads(channel_id):
             "published_at": item['snippet']['publishedAt'],
             "channel": item['snippet'].get('channelTitle'),
             "video_id": video_id,
-            "tags": item['snippet'].get('tags', [])
+            "tags": []
         })
 
     if video_ids:
@@ -70,15 +70,19 @@ def fetch_all_today_uploads(channel_id):
         )
         video_response = video_request.execute()
 
+        # duration
         for video_info in video_response.get('items', []):
             vid = video_info['id']
             duration_str = video_info['contentDetails'].get('duration', 'PT0S')
             duration_seconds = parse_duration(duration_str)
+            # tag
+            video_tags = video_info.get('snippet', {}).get('tags', [])
 
             for video in videos:
                 if video['video_id'] == vid:
                     video['duration_seconds'] = duration_seconds
                     video['category'] = "short" if duration_seconds < 240 else "video"
+                    video['tags'] = video_tags
                     break
 
     return videos

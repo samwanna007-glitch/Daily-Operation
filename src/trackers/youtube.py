@@ -1,7 +1,7 @@
 from .base import BaseTracker
 from ..clients.youtube import fetch_all_today_uploads
 from ..core.config import YOUTUBE_CHANNEL_IDS, NOTION_DATABASE_ID, FIREBASE_CREDENTIALS_PATH
-from ..core.notion import get_existing_ids, add_entry
+from ..core.notion import YouTubeNotion
 from ..core.storage import save_to_json
 from ..core import firebase
 
@@ -34,7 +34,8 @@ class YouTubeTracker(BaseTracker):
     def run(self):
         """Run the tracker: check existing, fetch new, upload to Notion."""
         print("Checking Notion database for existing items...")
-        existing_ids = get_existing_ids(self.database_id)
+        notion = YouTubeNotion()
+        existing_ids = notion.get_existing_ids(self.database_id)
         print(f"Found {len(existing_ids)} existing items in Notion")
 
         newly_added = []
@@ -50,7 +51,7 @@ class YouTubeTracker(BaseTracker):
             added_items = []
             for item in newly_added:
                 category = self.get_category(item)
-                result = add_entry(
+                result = notion.add_entry(
                     database_id=self.database_id,
                     title=item.get("title", ""),
                     description=item.get("description", ""),
