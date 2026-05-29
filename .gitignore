@@ -38,18 +38,10 @@ env/
 *.swo
 *~
 
-# Logs
-logs/*.log
-logs/
-
 # Claude Code
 .claude/
 
-# Generated data
-data/videos.json
-data/news.json
-
-# Firebase credentials (also created at runtime by GitHub Actions)
+# Firebase credentials
 serviceAccountKey.json
 
 # OS

@@ -2,32 +2,35 @@ name: YouTube Tracker
 
 on:
   schedule:
-    - cron: "0 0 * * *" # Daily at 00:00 UTC
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 jobs:
-  track:
+  fetch-youtube-videos:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Setup Firebase credentials
         run: |
-          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" | base64 --decode > serviceAccountKey.json
+          pip install -r requirements.txt
 
       - name: Run YouTube tracker
-        run: python main.py
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           YOUTUBE_CHANNEL_IDS: ${{ secrets.YOUTUBE_CHANNEL_IDS }}
+          YOUTUBE_QUERIES: ${{ secrets.YOUTUBE_QUERIES }}
+          YOUTUBE_VIDEO_IDS: ${{ secrets.YOUTUBE_VIDEO_IDS }}
+          YOUTUBE_LIMIT: ${{ secrets.YOUTUBE_LIMIT }}
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
-          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
-          LOG_LEVEL: ${{ secrets.LOG_LEVEL }}
-          FIREBASE_CREDENTIALS_PATH: serviceAccountKey.json
+          NOTION_YOUTUBE_DATABASE_ID: ${{ secrets.NOTION_YOUTUBE_DATABASE_ID }}
+        run: |
+          cd src
+          python main_youtube.py
