@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def build_youtube_video_schema(item, fetch_by):
     snippet = item.get('snippet', {})
     video = {
@@ -33,4 +35,28 @@ def build_youtube_notion_properties(video):
         },
         "fetch_by": {"select": {"name": video['fetch_by']}}
     }
+    return properties
+
+def build_news_article_schema(item, fetch_by):
+    article = {
+            "title": item.get('title'),
+            "description": item.get('description'),
+            "url": item.get('url'),
+            "published_at": item.get('published date'),
+            "publisher_title": item.get('publisher').get('title'),
+            "publisher_url": item.get('publisher').get('href'),
+            "fetch_by": fetch_by
+    }
+    return article
+
+def build_news_notion_properties(article):
+    properties = {
+        "title": {"title": [{"text": {"content": article.get('title')}}]},
+        "description": {"rich_text": [{"text": {"content": article['description']}}]},
+        "published_at": {"date": {"start": datetime.strptime(article['published_at'], "%a, %d %b %Y %H:%M:%S GMT").isoformat() + "Z"}},
+        "url": {"url": article['url']},
+        "publisher_title": {"rich_text": [{"text": {"content": article['publisher_title']}}]},
+        "publisher_url": {"url": article['publisher_url']},
+        "fetch_by": {"select": {"name": article['fetch_by']}}
+}
     return properties

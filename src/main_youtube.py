@@ -5,9 +5,6 @@ from providers import YouTubeProvider
 from databases import NotionDatabase
 from schema import build_youtube_notion_properties
 
-import random
-import time
-
 if __name__ == "__main__":
     youtube = YouTubeProvider(
         api_key=YOUTUBE_API_KEY,
@@ -21,20 +18,13 @@ if __name__ == "__main__":
         database_id=NOTION_YOUTUBE_DATABASE_ID
     )
 
-    print("pass the install youtube and notion")
-
     videos = []
     
     videos.extend(youtube.fetch_by_queries())
-    print("fetch by query complete.")
-    time.sleep(random.uniform(1, 10))
     
     videos.extend(youtube.fetch_by_video_ids())
-    print("fetch by video id complete.")
-    time.sleep(random.uniform(1, 10))
 
     videos.extend(youtube.fetch_by_channel_ids())
-    print("fetch by channel id complete.")    
     
     for video in videos:
         is_exsits = notion.check_property_value(

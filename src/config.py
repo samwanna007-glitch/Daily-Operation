@@ -11,3 +11,12 @@ YOUTUBE_LIMIT = os.getenv('YOUTUBE_LIMIT') or 10
 
 NOTION_API_KEY= os.getenv('NOTION_API_KEY') or None
 NOTION_YOUTUBE_DATABASE_ID= os.getenv('NOTION_YOUTUBE_DATABASE_ID') or None
+
+# GNews Configuration
+GNEWS_TOPICS = os.getenv('GNEWS_TOPICS') or None
+GNEWS_KEYWORDS = os.getenv('GNEWS_KEYWORDS') or None
+GNEWS_SITES = os.getenv('GNEWS_SITES') or None
+GNEWS_LOCATIONS = os.getenv('GNEWS_LOCATIONS') or None
+GNEWS_LIMIT = os.getenv('GNEWS_LIMIT') or 10
+GNEWS_FROM_DATE = os.getenv('GNEWS_FROM_DATE') or 1
+NOTION_NEWS_DATABASE_ID = os.getenv('NOTION_NEWS_DATABASE_ID') or None

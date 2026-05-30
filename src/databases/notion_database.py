@@ -13,6 +13,8 @@ class NotionDatabase:
             "Notion-Version": "2022-06-28",
         }
         self.base_url = "https://api.notion.com/v1"
+
+        print("Initialized notion database.")
     
     def check_property_value(self, property_name, target_value, property_type):
         url = f"{self.base_url}/databases/{self.database_id}/query"
