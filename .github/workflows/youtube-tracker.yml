@@ -29,6 +29,7 @@ jobs:
           YOUTUBE_QUERIES: ${{ secrets.YOUTUBE_QUERIES }}
           YOUTUBE_VIDEO_IDS: ${{ secrets.YOUTUBE_VIDEO_IDS }}
           YOUTUBE_LIMIT: ${{ secrets.YOUTUBE_LIMIT }}
+          YOUTUBE_FROM_DATE: ${{ secrets.YOUTUBE_FROM_DATE }}
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_YOUTUBE_DATABASE_ID: ${{ secrets.NOTION_YOUTUBE_DATABASE_ID }}
         run: |

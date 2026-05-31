@@ -4,9 +4,10 @@ import logging
 
 from googleapiclient.discovery import build
 from schema import build_youtube_video_schema
+from utils.formatDate import days_ago_to_iso
 
 class YouTubeProvider:
-    def __init__(self, api_key, channel_id, queries, video_id, limit):
+    def __init__(self, api_key, channel_id, queries, video_id, limit, from_date):
         if not api_key:
             raise ConnectionError("Youtube Provider: Require api key")
 
@@ -14,6 +15,7 @@ class YouTubeProvider:
         self.queries = queries.split(',') if queries else []
         self.video_ids = video_id.split(',') if video_id else []
         self.channel_ids = channel_id.split(',') if channel_id else []
+        self.published_after = days_ago_to_iso(from_date)
         self.limit = limit
 
         self.youtube_client = build('youtube', 'v3', developerKey=self.api_key)
@@ -36,6 +38,7 @@ class YouTubeProvider:
                     part='snippet',
                     q=query.strip(),
                     type='video',
+                    publishedAfter=self.published_after,
                     maxResults=self.limit
                 )
                 response = request.execute()
@@ -105,8 +108,9 @@ class YouTubeProvider:
                     part='snippet',
                     channelId=cid.strip(),
                     type='video',
-                    maxResults=self.limit,
-                    order='date'
+                    order='date',
+                    publishedAfter=self.published_after,
+                    maxResults=self.limit
                 )
                 response = request.execute()
                 print(f"Fetched from channel {cid.strip()}: {len(response.get('items', []))} videos")

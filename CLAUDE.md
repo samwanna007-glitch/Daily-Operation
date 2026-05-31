@@ -1,57 +1,71 @@
-# CLAUDE.md
+﻿# CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 
-**Daily Tracker Suite** - A Python application for tracking YouTube content:
-- Fetches YouTube videos by queries, video IDs, or channel IDs
-- Stores metadata in Notion database with deduplication
+**Daily Tracker Suite** - A Python application with two content trackers:
+- **YouTube Tracker**: Fetches YouTube videos via API and stores metadata in Notion
+- **News Tracker**: Fetches news articles via GNews API and stores them in Notion
 
-**Version:** 1.0.0
+Both trackers implement deduplication before inserting records.
 
 ## Development Commands
 
 ```bash
 # Run YouTube tracker
-python src/main_youtube.py
+cd src && python main_youtube.py
+
+# Run News tracker
+cd src && python main_news.py
 
 # Install dependencies
 pip install -r requirements.txt
+
+# No test framework configured - manual testing via main scripts
 ```
 
 ## Architecture
 
 ```
 src/
-├── main_youtube.py           Entry point
-├── config.py                 Environment variable configuration
-├── schema.py                 Schema builders for Notion properties
+├── main_youtube.py           Entry point for YouTube tracker
+├── main_news.py              Entry point for News tracker
+├── config.py                 Centralized environment variables (python-dotenv)
+├── schema.py                 Schema builders for Notion property structures
 ├── providers/
-│   └── youtube_provider.py   YouTube API client with search capabilities
+│   ├── youtube_provider.py   YouTube API client (google-api-python-client)
+│   └── news_provider.py      GNews API client
 └── databases/
-    └── notion_database.py    Notion API integration
+    └── notion_database.py    Notion API integration (deduplication + insertion)
 ```
 
-- **src/main_youtube.py** - Entry point orchestrating YouTubeProvider and NotionDatabase
-- **src/config.py** - Centralized environment variables using python-dotenv
-- **src/schema.py** - Builds Notion-compatible property structures from YouTube data
-- **src/providers/youtube_provider.py** - `YouTubeProvider` class with `fetch_by_queries()`, `fetch_by_video_ids()`, `fetch_by_channel_ids()` methods
-- **src/databases/notion_database.py** - `NotionDatabase` class with `check_property_value()` for deduplication and `add_row()` for insertion
+**src/utils/formatDate.py** - Date formatting utilities for API time filters
+
+### Data Flow
+
+Both trackers follow the same pattern:
+1. Entry point initializes provider and NotionDatabase
+2. Provider fetches content (by queries/IDs/topics/etc.)
+3. Each item is checked against Notion via check_property_value() (deduplication)
+4. New items are formatted via schema builder and inserted via add_row()
+
+### Provider Pattern
+
+Providers implement multiple fetch methods that:
+- Use random delays (time.sleep(random.uniform(1, 5))) between API calls for rate limiting
+- Maintain seen_* sets to deduplicate within a single run
+- Return list of normalized video/article dictionaries
 
 ## Configuration
 
-Required environment variables (see `.env.example`):
-- `YOUTUBE_API_KEY` - Google YouTube Data API v3 key
-- `YOUTUBE_CHANNEL_IDS` - Comma-separated list of channel IDs to monitor
-- `YOUTUBE_QUERIES` - Optional: Comma-separated search queries
-- `YOUTUBE_VIDEO_IDS` - Optional: Comma-separated specific video IDs
-- `YOUTUBE_LIMIT` - Optional: Max results per query (default: 10)
-- `NOTION_API_KEY` - Notion integration key
-- `NOTION_YOUTUBE_DATABASE_ID` - Target Notion database ID
+**Required for YouTube tracker:** YOUTUBE_API_KEY, NOTION_API_KEY, NOTION_YOUTUBE_DATABASE_ID, plus at least one of YOUTUBE_CHANNEL_IDS, YOUTUBE_QUERIES, or YOUTUBE_VIDEO_IDS
+
+**Required for News tracker:** NOTION_API_KEY, NOTION_NEWS_DATABASE_ID, plus at least one of GNEWS_TOPICS, GNEWS_KEYWORDS, GNEWS_SITES, or GNEWS_LOCATIONS
 
 ## Workflow
 
-- **Trigger:** Daily at 00:00 UTC via GitHub Actions
-- **Deduplication:** Checks `video_id` property against existing Notion entries before adding
-- **Rate limiting:** Includes random delays between fetch operations to avoid API rate limits
+- **Trigger:** Daily at 00:00 UTC via GitHub Actions (.github/workflows/youtube-tracker.yml for YouTube, create similar for News)
+- **Deduplication:** Checks unique property (video_id for YouTube, url for News) against existing Notion entries
+- **Rate limiting:** Random 1-5 second delays between API fetch operations
+

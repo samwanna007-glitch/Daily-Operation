@@ -1,4 +1,4 @@
-from datetime import datetime
+from utils.formatDate import parse_gnews_date_to_iso
 
 def build_youtube_video_schema(item, fetch_by):
     snippet = item.get('snippet', {})
@@ -53,7 +53,7 @@ def build_news_notion_properties(article):
     properties = {
         "title": {"title": [{"text": {"content": article.get('title')}}]},
         "description": {"rich_text": [{"text": {"content": article['description']}}]},
-        "published_at": {"date": {"start": datetime.strptime(article['published_at'], "%a, %d %b %Y %H:%M:%S GMT").isoformat() + "Z"}},
+        "published_at": {"date": {"start": parse_gnews_date_to_iso(article['published_at'])}},
         "url": {"url": article['url']},
         "publisher_title": {"rich_text": [{"text": {"content": article['publisher_title']}}]},
         "publisher_url": {"url": article['publisher_url']},

@@ -1,4 +1,4 @@
-from config import YOUTUBE_API_KEY, YOUTUBE_CHANNEL_IDS, YOUTUBE_QUERIES, YOUTUBE_VIDEO_IDS, YOUTUBE_LIMIT
+from config import YOUTUBE_API_KEY, YOUTUBE_CHANNEL_IDS, YOUTUBE_QUERIES, YOUTUBE_VIDEO_IDS, YOUTUBE_LIMIT, YOUTUBE_FROM_DATE
 from config import NOTION_API_KEY, NOTION_YOUTUBE_DATABASE_ID
 
 from providers import YouTubeProvider
@@ -11,7 +11,8 @@ if __name__ == "__main__":
         channel_id=YOUTUBE_CHANNEL_IDS,
         queries=YOUTUBE_QUERIES,
         video_id=YOUTUBE_VIDEO_IDS,
-        limit=YOUTUBE_LIMIT
+        limit=YOUTUBE_LIMIT,
+        from_date=YOUTUBE_FROM_DATE
     )
     notion = NotionDatabase(
         api_key=NOTION_API_KEY, 
