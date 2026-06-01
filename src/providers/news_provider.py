@@ -42,7 +42,7 @@ class NewsProvider:
                 article_url = item.get('url')
                 if article_url and article_url not in seen_urls:
                     seen_urls.add(article_url)
-                    articles.append(build_news_article_schema(item, fetch_by="topic"))
+                    articles.append(build_news_article_schema(item, fetch_by="topic", fetch_value=topic))
 
             time.sleep(random.uniform(1, 5))
 
@@ -70,7 +70,7 @@ class NewsProvider:
                 article_url = item.get('url')
                 if article_url and article_url not in seen_urls:
                     seen_urls.add(article_url)
-                    articles.append(build_news_article_schema(item, fetch_by="keyword"))
+                    articles.append(build_news_article_schema(item, fetch_by="keyword", fetch_value=keyword.strip()))
 
             time.sleep(random.uniform(1, 5))
 
@@ -98,7 +98,7 @@ class NewsProvider:
                 article_url = item.get('url')
                 if article_url and article_url not in seen_urls:
                     seen_urls.add(article_url)
-                    articles.append(build_news_article_schema(item, fetch_by="site"))
+                    articles.append(build_news_article_schema(item, fetch_by="site", fetch_value=site.strip()))
             time.sleep(random.uniform(1, 5))
 
         return articles
@@ -125,7 +125,7 @@ class NewsProvider:
                 article_url = item.get('url')
                 if article_url and article_url not in seen_urls:
                     seen_urls.add(article_url)
-                    articles.append(build_news_article_schema(item, fetch_by="location"))
+                    articles.append(build_news_article_schema(item, fetch_by="location", fetch_value=location.strip()))
 
             time.sleep(random.uniform(1, 5))
 

@@ -51,8 +51,8 @@ class YouTubeProvider:
                 video_id = item['id']['videoId']
                 if video_id not in seen_ids:
                     seen_ids.add(video_id)
-                    videos.append(build_youtube_video_schema(item, fetch_by="query"))
-            
+                    videos.append(build_youtube_video_schema(item, fetch_by="query", fetch_value=query.strip()))
+
             time.sleep(random.uniform(1, 5))
         
         return videos
@@ -86,8 +86,8 @@ class YouTubeProvider:
                 video_id = item['id']['videoId']
                 if video_id not in seen_ids:
                     seen_ids.add(video_id)
-                    videos.append(build_youtube_video_schema(item, fetch_by="video_id"))
-            
+                    videos.append(build_youtube_video_schema(item, fetch_by="video_id", fetch_value=vid.strip()))
+
             time.sleep(random.uniform(1, 5))
         
         return videos
@@ -123,7 +123,7 @@ class YouTubeProvider:
                 video_id = item['id']['videoId']
                 if video_id not in seen_ids:
                     seen_ids.add(video_id)
-                    videos.append(build_youtube_video_schema(item, fetch_by="channel_id"))
+                    videos.append(build_youtube_video_schema(item, fetch_by="channel_id", fetch_value=cid.strip()))
 
             time.sleep(random.uniform(1, 5))
         
