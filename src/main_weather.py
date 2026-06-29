@@ -116,11 +116,7 @@ if __name__ == "__main__":
     lon = get_coord(city=OPENWEATHERMAP_CITY).get("coord").get("lon")
     lat = get_coord(city=OPENWEATHERMAP_CITY).get("coord").get("lat")
 
-    reponse_forcast = fetch_24_hour_forecast(
-        lon=lon, lat=lat, api_key=OPENWEATHERMAP_API_KEY
-    )
-
-    print(reponse_forcast)
+    print(fetch_24_hour_forecast(lon=lon, lat=lat, api_key=OPENWEATHERMAP_API_KEY))
 
     #     forecast_data_24_hour = fetch_24_hour_forecast(
     #
