@@ -1,8 +1,4 @@
-from datetime import datetime
-from zoneinfo import ZoneInfo
-
 import requests
-from uritemplate import api
 
 
 class WeatherProvider:
