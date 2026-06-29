@@ -35,12 +35,7 @@ def get_coord(city: str):
     try:
         response = requests.get(url)
         data = response.json()
-        return {
-            "lon": data.get("coord").get("lon", None),
-            "lat": data.get("coord").get("lat", None),
-            "country": data.get("sys").get("country", None),
-            "name": data.get("sys").get("name", None),
-        }
+        return data
 
     except requests.exceptions.RequestException as e:
         print(f"Network or API Error: {e}")
@@ -119,18 +114,15 @@ if __name__ == "__main__":
     )
 
     # get coord
-    coord = get_coord(city=OPENWEATHERMAP_CITY)
-    if coord is not None:
-        lon = coord.get("lon")
-        lat = coord.get("lat")
+    get_coord(city=OPENWEATHERMAP_CITY)
+
+    # if coord is not None:
+    #     lon = coord.get("lon")
+    #     lat = coord.get("lat")
 
     #     forecast_data_24_hour = fetch_24_hour_forecast(
-    #         lon=lon, lat=lat, api_key=OPENWEATHERMAP_API_KEY
-    #     )
-
-    #     # get forecast in the next 24 hours
-    #     if forecast_data_24_hour is not None:
-    #         for w in forecast_data_24_hour:
+    #         l
+    # return data in forecast_data_24_hour:
     #             properties = {
     #                 "title": {"title": [{"text": {"content": "Weather report"}}]},
     #                 "date": {
