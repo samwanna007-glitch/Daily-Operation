@@ -36,10 +36,10 @@ def get_coord(city: str):
         response = requests.get(url)
         data = response.json()
         return {
-            "lon": data.get("coord").get("lon"),
-            "lat": data.get("coord").get("lat"),
-            "country": data.get("sys").get("country"),
-            "name": data.get("sys").get("name"),
+            "lon": data.get("coord").get("lon", None),
+            "lat": data.get("coord").get("lat", None),
+            "country": data.get("sys").get("country", None),
+            "name": data.get("sys").get("name", None),
         }
 
     except requests.exceptions.RequestException as e:
