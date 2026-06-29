@@ -113,8 +113,11 @@ if __name__ == "__main__":
         api_key=NOTION_API_KEY, database_id=NOTION_WEATHER_DATABASE_ID
     )
 
-    lon = get_coord(city=OPENWEATHERMAP_CITY).get("coord").get("lon")
-    lat = get_coord(city=OPENWEATHERMAP_CITY).get("coord").get("lat")
+    fetch_24_hour_forecast(
+        lon=get_coord(city=OPENWEATHERMAP_CITY).get("coord").get("lon"),
+        lat=get_coord(city=OPENWEATHERMAP_CITY).get("coord").get("lat"),
+        api_key=OPENWEATHERMAP_API_KEY,
+    )
 
     # print(fetch_24_hour_forecast(lon=lon, lat=lat, api_key=OPENWEATHERMAP_API_KEY))
 
