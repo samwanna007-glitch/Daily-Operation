@@ -118,41 +118,41 @@ if __name__ == "__main__":
         api_key=NOTION_API_KEY, database_id=NOTION_WEATHER_DATABASE_ID
     )
 
-    # get coord
-    coord = get_coord(city=OPENWEATHERMAP_CITY)
-    if coord is not None:
-        lon = coord.get("lon")
-        lat = coord.get("lat")
+    # # get coord
+    # coord = get_coord(city=OPENWEATHERMAP_CITY)
+    # if coord is not None:
+    #     lon = coord.get("lon")
+    #     lat = coord.get("lat")
 
-        forecast_data_24_hour = fetch_24_hour_forecast(
-            lon=lon, lat=lat, api_key=OPENWEATHERMAP_API_KEY
-        )
+    #     forecast_data_24_hour = fetch_24_hour_forecast(
+    #         lon=lon, lat=lat, api_key=OPENWEATHERMAP_API_KEY
+    #     )
 
-        # get forecast in the next 24 hours
-        if forecast_data_24_hour is not None:
-            for w in forecast_data_24_hour:
-                properties = {
-                    "title": {"title": [{"text": {"content": "Weather report"}}]},
-                    "date": {
-                        "rich_text": [
-                            {
-                                "text": {
-                                    "content": convert_timezone(
-                                        utc_string=w.get("date"),
-                                        target_tz=OPENWEATHERMAP_CITY,
-                                    )
-                                }
-                            }
-                        ]
-                    },
-                    "temp": {"number": float(w.get("temp"))},
-                    "weather": {"rich_text": [{"text": {"content": w.get("weather")}}]},
-                    "description": {
-                        "rich_text": [{"text": {"content": w.get("description")}}]
-                    },
-                    "country": {"select": {"name": OPENWEATHERMAP_CITY}},
-                }
+    #     # get forecast in the next 24 hours
+    #     if forecast_data_24_hour is not None:
+    #         for w in forecast_data_24_hour:
+    #             properties = {
+    #                 "title": {"title": [{"text": {"content": "Weather report"}}]},
+    #                 "date": {
+    #                     "rich_text": [
+    #                         {
+    #                             "text": {
+    #                                 "content": convert_timezone(
+    #                                     utc_string=w.get("date"),
+    #                                     target_tz=OPENWEATHERMAP_CITY,
+    #                                 )
+    #                             }
+    #                         }
+    #                     ]
+    #                 },
+    #                 "temp": {"number": float(w.get("temp"))},
+    #                 "weather": {"rich_text": [{"text": {"content": w.get("weather")}}]},
+    #                 "description": {
+    #                     "rich_text": [{"text": {"content": w.get("description")}}]
+    #                 },
+    #                 "country": {"select": {"name": OPENWEATHERMAP_CITY}},
+    #             }
 
-                # add to notion database
-                response = notion.add_row(properties=properties)
-                print(response)
+    #             # add to notion database
+    #             response = notion.add_row(properties=properties)
+    #             print(response)
