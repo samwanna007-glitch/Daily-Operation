@@ -47,7 +47,7 @@ def get_coord(city: str):
         return None
 
 
-def fetch_24_hour_forecast(lat, lon, api_key):
+def fetch_24_hour_forecast(lon, lat, api_key):
     url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&units=metric&appid={api_key}"
 
     try:
