@@ -20,6 +20,11 @@ class WeatherProvider:
         try:
             response = requests.get(url)
             data = response.json()
+
+            if response.status_code != 200:
+                print(f"API Error {response.status_code}: {data.get('message', 'Unknown error')}")
+                return None
+
             return data.get("coord")
 
         except requests.exceptions.RequestException as e:
